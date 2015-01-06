@@ -27,9 +27,9 @@
 (defn load-responses!
   "File should be located at ./resources/ws_responses.json"
   []
-  (reset! ws-responses (let [parsed-file (cheshire/parse-stream (clojure.java.io/reader "./resources/ws_responses.json") keyword)
-                             data-rows   (dissoc parsed-file :tables)]
-                         (reduce (fn [accum [table schema]]
+  (let [parsed-file (cheshire/parse-stream (clojure.java.io/reader "./resources/ws_responses.json") keyword)
+        data-rows   (dissoc parsed-file :tables)]
+    (reset! ws-responses (reduce (fn [accum [table schema]]
                                    (update-in accum [table schema] assign-ids))
                                  data-rows
                                  (file-data->tables data-rows)))))
