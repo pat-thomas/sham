@@ -1,6 +1,5 @@
 (ns sham.file
-  (:require [cheshire.core :as cheshire]
-            [clojure.walk  :as walk]))
+  (:require [cheshire.core :as cheshire]))
 
 (def ws-responses (atom nil))
 
