@@ -34,9 +34,17 @@
   (doseq [resource-path (file/file-data->tables (file/file-data-from-file))]
     (mock-get resource-path)))
 
+(defonce web-server (atom nil))
+
 (defn init!
   [{:keys [port] :as opts}]
   (file/load-responses!)
   (gen-mock-routes!)
-  (server/start-server! (apply compojure/routes @app-routes) port)
+  (reset! web-server (server/start-server! (apply compojure/routes @app-routes) port))
   :mock-server-started)
+
+(defn reload!
+  [{:keys [port] :as opts}]
+  (do (when-not (nil? @web-server)
+        (@web-server))
+      (init! {:port port})))
