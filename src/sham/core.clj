@@ -1,5 +1,8 @@
 (ns sham.core)
 
+(defmacro mock-get
+  )
+
 (defn foo
   "I don't do a whole lot."
   [x]
