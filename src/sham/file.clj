@@ -33,8 +33,6 @@
                                    (update-in accum [table schema] assign-ids))
                                  data-rows
                                  (file-data->tables data-rows)))))
-
 (defn init!
   []
-  (let [validated-ws-responses (validate!)]
-    (load-responses! validated-ws-responses)))
+  (load-responses!))
