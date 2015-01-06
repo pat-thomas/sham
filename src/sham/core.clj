@@ -1,9 +1,8 @@
 (ns sham.core
-  (:require [sham.file       :as file]
-            [sham.server     :as server]
-            [cheshire.core   :as cheshire]
-            [compojure.core  :as compojure]
-            [compojure.route :as route]))
+  (:require [sham.file      :as file]
+            [sham.server    :as server]
+            [cheshire.core  :as cheshire]
+            [compojure.core :as compojure]))
 
 (def app-routes
   (atom 
