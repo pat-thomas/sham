@@ -9,7 +9,7 @@
   (for [i (range (count rows))]
     (assoc (nth rows i) :id i)))
 
-(defn file-data->tables
+(defn file-data->tables ;; this is a bad implementation, can I make it better?
   [file-data]
   (->> file-data
        keys
