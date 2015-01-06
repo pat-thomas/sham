@@ -16,19 +16,27 @@
        (clojure.string/join "/")
        (str "/")))
 
+(defn register-mock-route
+  [route-impl]
+  (swap! app-routes conj route-impl))
+
 (defn mock-get
   [resource-path]
-  (swap! app-routes conj (compojure/GET (keywords->resource-path-str resource-path) [] (fn [_]
-                                                                                         (-> file/ws-responses
-                                                                                             deref
-                                                                                             (get-in resource-path)
-                                                                                             cheshire/encode)))))
+  (register-mock-route
+   (compojure/GET (keywords->resource-path-str resource-path) [] (fn [_]
+                                                                   (-> file/ws-responses
+                                                                       deref
+                                                                       (get-in resource-path)
+                                                                       cheshire/encode)))))
 
-(defn gen-mock-routes
-  [])
+(defn gen-mock-routes!
+  []
+  (doseq [resource-path (file/file-data->tables (file/file-data-from-file))]
+    (mock-get resource-path)))
 
 (defn init!
   [{:keys [port] :as opts}]
   (file/load-responses!)
+  (gen-mock-routes!)
   (server/start-server! (apply compojure/routes @app-routes) port)
   :mock-server-started)

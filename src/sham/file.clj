@@ -23,10 +23,14 @@
        flatten
        (partition 2)))
 
+(defn file-data-from-file
+  []
+  (cheshire/parse-stream (clojure.java.io/reader "./resources/ws_responses.json") keyword))
+
 (defn load-responses!
   "File should be located at ./resources/ws_responses.json"
   []
-  (let [parsed-file (cheshire/parse-stream (clojure.java.io/reader "./resources/ws_responses.json") keyword)
+  (let [parsed-file (file-data-from-file)
         data-rows   (dissoc parsed-file :tables)]
     (reset! ws-responses (reduce (fn [accum [table schema]]
                                    (update-in accum [table schema] assign-ids))
