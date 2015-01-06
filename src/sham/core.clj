@@ -13,7 +13,7 @@
   (->> resource-path
        (map name)
        (clojure.string/join "/")
-       (str "/")))
+       (str "/api/")))
 
 (defn register-mock-route
   [route-impl]
