@@ -33,6 +33,3 @@
                                    (update-in accum [table schema] assign-ids))
                                  data-rows
                                  (file-data->tables data-rows)))))
-(defn init!
-  []
-  (load-responses!))

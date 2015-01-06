@@ -1,9 +1,9 @@
-(ns sham.core)
+(ns sham.core
+  (:require [sham.file :as file]))
 
 (defmacro mock-get
-  )
+  [])
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn init!
+  []
+  (file/load-responses!))
