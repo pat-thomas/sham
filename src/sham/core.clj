@@ -1,8 +1,10 @@
 (ns sham.core
   (:require [sham.file      :as file]
             [sham.server    :as server]
+            [sham.session   :as session]
             [cheshire.core  :as cheshire]
-            [compojure.core :as compojure]))
+            [compojure.core :as compojure]
+            [compojure.route :as route]))
 
 (def app-routes
   (atom 
@@ -28,10 +30,20 @@
                                                                        (get-in resource-path)
                                                                        cheshire/encode)))))
 
+(def not-found-route
+  (route/not-found "Resource not found."))
+
+(defn register-mock-session-routes
+  []
+  (doseq [method [:get :post]]
+    (register-mock-route (method session/mock-session-routes))))
+
 (defn gen-mock-routes!
   []
+  (register-mock-session-routes)
   (doseq [resource-path (file/file-data->tables (file/file-data-from-file))]
-    (mock-get resource-path)))
+    (mock-get resource-path))
+  (register-mock-route not-found-route))
 
 (defonce web-server (atom nil))
 
